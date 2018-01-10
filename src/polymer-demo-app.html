@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+
+
+<dom-module id="polymer-demo">
+    <template>
+        <app-location route="{{route}}"></app-location>
+        <app-route route="{{route}}" pattern="/:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+       
+        <iron-pages selected="{{routeData.page}}" attr-for-selected="name">
+            <polymer-demo-page-home name="home" route="{{subroute}}"></polymer-demo-page-home>
+            <polymer-demo-page-about name="about" route="{{subroute}}"></polymer-demo-page-about>
+            <polymer-demo-page-contact name="contact" route="{{subroute}}"></polymer-demo-page-contact>
+            <polymer-demo-page-details name="details" route="{{subroute}}"></polymer-demo-page-details>
+        </iron-pages>
+    </template>
+    <script>
+    Polymer({
+        is: 'polymer-demo',
+
+        properties: {
+            page: {
+                type: String,
+                reflectToAttribute: true,
+                observer: '_pageChanged'
+            }
+        },
+        observers: [
+            '_routePageChanged(routeData.page)'
+        ],
+
+        _routePageChanged: function(page) {
+            this.page = page || 'home';
+        },
+
+        _pageChanged: function(page) {
+            var resolvedPageUrl = this.resolveUrl('views/polymer-demo-page-' + page + '.html');
+            this.importHref(resolvedPageUrl);
+        }
+
+    });
+    </script>
+</dom-module>

@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../elements/shared-styles.html">
+<link rel="import" href="../elements/users-list-component.html">
+
+<dom-module id="polymer-demo-page-home">
+    <template>
+        <style>
+        :host {
+            display: block;
+        }
+        </style>
+        <app-route
+          route="{{route}}"
+          data="{{routeData}}"></app-route>
+        <iron-ajax auto id="getUserGroups" url="https://jsonplaceholder.typicode.com/users" 
+        handle-as="json" on-response="_handleGet" on-error="_handleError"
+        content-type="application/json" json-prefix="">
+        </iron-ajax>
+
+        <h1>Home Page</h1>
+
+        <users-list-component users-list="[[ajaxData]]" selected-user="{{selectedUser}}"></users-list-component>
+    </template>
+    <script>
+        Polymer({
+            is: 'polymer-demo-page-home',
+            properties: {
+                ajaxData:{
+                    type:Array,
+                    notify:true
+                },
+                selectedUser:{
+                    type:Array,
+                    notify:true,
+                    observer:'_selectedUserChanged'
+                }
+            },
+            _handleGet:function(request){
+                this.ajaxData = request.detail.response;
+            },
+            _handleError:function(request){
+                console.log('request', request);    
+            },
+            _selectedUserChanged:function(){
+                this.routeData.user = this.selectedUser;
+                console.log('_selectedUserChanged', this.routeData);
+            }
+        });
+    </script>
+</dom-module>

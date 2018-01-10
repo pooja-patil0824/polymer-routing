@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Polymer Demo</title>
+    <meta name="description" content="Demo">
+
+    <!-- requirement for automated build -->
+    <base href="/home">
+
+    <link rel="icon" href="/images/favicon.ico">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- See https://goo.gl/qRE0vM -->
+    <meta name="theme-color" content="#fafafa">
+
+    
+
+    <script>
+      // Setup Polymer options
+      window.Polymer = {
+        dom: 'shadow',
+        lazyRegister: true
+      };
+
+      // Load webcomponentsjs polyfill if browser does not support native Web Components
+      (function() {
+        'use strict';
+
+        var onload = function() {
+          // For native Imports, manually fire WebComponentsReady so user code
+          // can use the same code path for native and polyfill'd imports.
+          if (!window.HTMLImports) {
+            document.dispatchEvent(
+              new CustomEvent('WebComponentsReady', {bubbles: true})
+            );
+          }
+        };
+
+        var webComponentsSupported = (
+          'registerElement' in document
+          && 'import' in document.createElement('link')
+          && 'content' in document.createElement('template')
+        );
+
+        if (!webComponentsSupported) {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+          script.onload = onload;
+          document.head.appendChild(script);
+        } else {
+          onload();
+        }
+      })();
+
+      // Load pre-caching Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
+
+    <link rel="import" href="/src/polymer-demo-app.html">
+
+    <style>
+      body {
+        margin: 0;
+        line-height: 1.5;
+        min-height: 100vh;
+        background-color: #eeeeee;
+      }
+      .container{
+        width: 80%;
+        margin:auto;
+        background-color: #ffffff;
+        padding:20px;
+        min-height:600px;
+        height: 100%;
+      }
+      ul{
+        list-style-type: none;
+        background-color:#333333
+      }
+      ul li{
+        display: inline-block;
+        margin: 10px;
+      }
+      ul li a,  ul li a:visited{
+        padding: 10px 20px;
+        color: #ffffff;
+        text-decoration: none; 
+        border-bottom: 0;
+        font-weight: bold;
+      }
+      ul li a:hover{
+        color: #ab0066
+      }
+    </style>
+  </head>
+  <body>
+  <main>    
+    <ul>
+      <li><a href="/home" title="Home">Home</a></li>
+      <li><a href="/about" title="About Us">About</a></li>
+      <li><a href="/contact" title="Contact Us">Contact</a></li>
+    </ul>
+    <div class="container">
+      <polymer-demo></polymer-demo>
+    </div>
+  </main>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "routing-demo",
+  "short_name": "routing-demo",
+  "description": "Routing Demo ",
+  "start_url": "/",
+  "display": "standalone"
+}

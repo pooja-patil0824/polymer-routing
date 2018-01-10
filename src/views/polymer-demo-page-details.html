@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="polymer-demo-page-details">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <app-route
+      route="{{route}}"
+      pattern="/:id"
+      data="{{routeData}}"></app-route>
+    <h1>details Page</h1>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'polymer-demo-page-details',
+      observers: [
+          '_routePageChanged(routeData)'
+      ],
+      _routePageChanged:function(routeData){
+        console.log('details page', this.routeData);
+      }
+    });
+  </script>
+</dom-module>
+
+ 

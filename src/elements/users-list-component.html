@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+
+<dom-module id="users-list-component">
+    <template>
+        <style>
+            :host {
+                display: block;
+                box-sizing: border-box;
+
+            }
+            ul.details-list{
+                list-style-type: none;
+                display: flex;
+                padding: 0;
+                margin: 0;
+            }
+            ul.details-list li{
+                padding: 10px;
+                margin: 0;
+                flex: 1;
+                line-height: 30px;
+            }
+            .name{
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+            ul.details-list li.address{
+                flex: 2;
+            }
+            li.address address{
+                display: inline-block;
+            }
+            a{
+                display: block;
+                text-decoration: none;
+                border-bottom: 1px solid #dddddd;
+                padding: 10px 0;
+                color:initial;
+            }
+            a:hover{
+                background-color: #f3f3f3;
+            }
+        </style>
+        <iron-list id="userDataId" items="[[usersList]]" as="item" selection-enabled multi-selection="true">
+          <template>
+            <a class="" href$="details/[[item.id]]" on-tap="itemsChanged">
+                <ul class="details-list">
+                    <li class="name">[[item.name]]</li>
+                    <li class="email">[[item.email]]</li>
+                    <li class="phone">[[item.phone]]</li>
+                    <li class="address">
+                        <address>
+                           <span>[[item.address.street]]</span> 
+                           <span> [[item.address.suite]]</span>
+                           <span>[[item.address.city]]</span>
+                           <span> [[item.address.zipcode]]</span>
+                        </address>
+                    </li>
+                </ul>
+            </a>
+          </template>
+        </iron-list>
+    </template>
+    <script>
+        Polymer({
+            is: 'users-list-component',
+            properties: {
+                usersList:{
+                    type:Array,
+                    notify:true
+                },
+                selectedUser:{
+                    type:Array,
+                    notify:true,
+                    value:[]
+                }
+            },
+            itemsChanged:function(){
+                this.selectedUser = this.$.userDataId.selectedItems;
+            }
+        });
+    </script>
+</dom-module>  
